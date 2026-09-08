@@ -1,5 +1,11 @@
 #!/bin/bash
 
+CONFIG_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+# Make repeated manual launches safe: an older StellarQuote window otherwise
+# remains on screen and can keep rendering a stale version of its config.
+pkill -f "conky.*${CONFIG_DIR}/stellar-" 2>/dev/null || true
+
 sleep 3
 
 # Start the Eww floating panel after Cinnamon has initialized the display.
@@ -11,11 +17,11 @@ sleep 3
 read WIDTH HEIGHT <<< "$(xdpyinfo | awk '/dimensions:/ {print $2}' | tr 'x' ' ')"
 
 # Start Conky instances
-conky -c "$HOME/.config/conky/stellar-left.conf" &
-conky -c "$HOME/.config/conky/stellar-right.conf" &
-conky -c "$HOME/.config/conky/stellar-ahmedabad.conf" &
-conky -c "$HOME/.config/conky/stellar-davao.conf" &
-conky -c "$HOME/.config/conky/stellar-quote.conf" &
+conky -c "$CONFIG_DIR/stellar-left.conf" &
+conky -c "$CONFIG_DIR/stellar-right.conf" &
+conky -c "$CONFIG_DIR/stellar-ahmedabad.conf" &
+conky -c "$CONFIG_DIR/stellar-davao.conf" &
+conky -c "$CONFIG_DIR/stellar-quote.conf" &
 
 # Wait for a specific window to appear
 wait_for_window() {

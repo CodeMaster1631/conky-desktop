@@ -78,6 +78,8 @@ The weather helper fetches data from the [Open-Meteo API](https://open-meteo.com
    ~/.config/conky/start-stellar.sh
    ```
 
+   The launcher first closes its existing Stellar Conky instances, so use this same command after editing a widget configuration. This ensures an older widget cannot remain on screen with stale formatting.
+
 To start it automatically after login, create a Cinnamon Startup Applications entry named `Stellar Desktop` with this command:
 
 ```text
