@@ -17,6 +17,23 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+# Keep every quote within approximately the same horizontal space as the
+# original two-line quote. Smaller fonts allow longer lines without making the
+# widget wider; longer quotes therefore gain lines instead of overflowing.
+LAYOUTS = (
+    (84, 14, 42),
+    (140, 12, 49),
+    (210, 10, 59),
+    (float("inf"), 8, 74),
+)
+
+
+def quote_layout(text):
+    """Return the font size and wrap width appropriate for a quote."""
+    for maximum_length, font_size, wrap_width in LAYOUTS:
+        if len(text) <= maximum_length:
+            return font_size, wrap_width
+
 with open(QUOTES_FILE, "r", encoding="utf-8") as f:
     quotes = json.load(f)
 
@@ -51,23 +68,30 @@ quote = quotes[days % len(quotes)]
 
 text = quote["text"].strip()
 author = quote["author"].strip()
+font_size, wrap_width = quote_layout(text)
 
-# Keep the quote visually suitable for your Conky.
+# Keep the quote visually suitable for the constrained Conky area.
 lines = textwrap.wrap(
     text,
-    width=42,
+    width=wrap_width,
     break_long_words=False,
     break_on_hyphens=False
 )
 
 for line in lines:
     if args.conky:
-        print(f"${{alignc}}${{color #d8d8d8}}{line}")
+        print(
+            f"${{alignc}}${{font JetBrains Mono Nerd Font:size={font_size}}}"
+            f"${{color #d8d8d8}}{line}"
+        )
     else:
         print(line)
 
 if args.conky:
     print("${voffset 1}")
-    print(f"${{alignc}}${{color #a8a8a8}}— {author}")
+    print(
+        f"${{alignc}}${{font JetBrains Mono Nerd Font:size={font_size}}}"
+        f"${{color #a8a8a8}}— {author}${{font}}"
+    )
 else:
     print(f"— {author}")

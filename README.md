@@ -103,7 +103,7 @@ Add only this launcher—do not add the individual Conky widgets separately.
 
 ### Daily quote
 
-The quote widget runs `quotes/get-quote.py` once per hour. The helper selects a stable, shuffled quote from `quotes/quotes.json` based on the date, so the quote changes daily without changing during the day. It formats the output for Conky and wraps long quotes for the centered widget.
+The quote widget runs `quotes/get-quote.py` once per hour. The helper selects a stable, shuffled quote from `quotes/quotes.json` based on the date, so the quote changes daily without changing during the day. It keeps the quote block within the original narrow space: short quotes use 14pt text, while longer quotes step down to 12pt, 10pt, or 8pt and wrap onto more lines.
 
 Run it directly to preview today's quote:
 
