@@ -101,6 +101,16 @@ Add only this launcher—do not add the individual Conky widgets separately.
 
 `stellar-center.conf`, `stellar-weather.conf`, and `font-test.conf` are supporting/experimental configurations retained in the repository.
 
+### Daily quote
+
+The quote widget runs `quotes/get-quote.py` once per hour. The helper selects a stable, shuffled quote from `quotes/quotes.json` based on the date, so the quote changes daily without changing during the day. It formats the output for Conky and wraps long quotes for the centered widget.
+
+Run it directly to preview today's quote:
+
+```bash
+python3 quotes/get-quote.py
+```
+
 ### Weather
 
 `weather/weather.py` accepts a city key:
